@@ -41,14 +41,14 @@
                 <img src="<?php echo APP_URL; ?>app/views/fotos/<?php echo $datos['usuario_foto']; ?>" class="rounded-circle img-fluid" style="max-width: 200px;">
             </div>
 
-            <form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/usuarioAjax.php" method="POST" autocomplete="off">
+            <!-- <form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/usuarioAjax.php" method="POST" autocomplete="off">
                 <input type="hidden" name="modulo_usuario" value="eliminarFoto">
                 <input type="hidden" name="usuario_id" value="<?php echo $datos['usuario_id']; ?>">
 
                 <div class="text-center mb-5">
                     <button type="submit" class="btn btn-danger rounded-pill">Eliminar foto</button>
                 </div>
-            </form>
+            </form> -->
 
             <?php else: ?>
                 <?php ?>
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-success rounded-pill">Actualizar foto</button>
+                    <button type="submit" class="btn btn-primary rounded-pill">Actualizar foto</button>
                 </div>
             </form>
         </div>

@@ -30,11 +30,6 @@
         if($vista === "login" || $vista === "404") {
             require_once "./app/views/content/".$vista."-view.php";
         } else {
-            // if(!isset($_SESSION['id']) || !isset($_SESSION['nombre'])
-            //     || $_SESSION['id'] == "") {
-            //     $instanciaLogin-> cerrarSesionControlador();
-            //     exit();
-            // }
             $pagina = $_GET['views'] ?? '';
             if ($pagina === '') {
                 $url = ["dashboard"];

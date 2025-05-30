@@ -45,6 +45,9 @@
         class="rounded-circle mb-3 mx-auto d-block"
         style="width: 120px; height: 120px; object-fit: cover; border: 2px solid #ddd;"
     >
+    <div class="text-center mb-4">
+        <a href="<?php echo APP_URL."userPhoto/".$_SESSION['id']."/"; ?>" class="btn btn-primary">Editar foto</a>
+    </div>
     <h2 class="text-center mb-4"><?php echo $datos['usuario_nombre']; ?></h2>
 
     <p class="text-center pb-5">

@@ -1,6 +1,7 @@
 <?php
     namespace app\models;
     use \PDO;
+    use \PDOException;
 
     if(file_exists(__DIR__."/../../config/server.php")) {
         require_once __DIR__."/../../config/server.php";
@@ -113,7 +114,7 @@
         }
 
         protected function actualizarDatos($tabla, $datos, $condicion) {
-            $query = "UPDATE $tabla SET";
+            $query = "UPDATE $tabla SET ";
 
             $contador = 0;
             foreach($datos as $clave) {
@@ -122,7 +123,7 @@
                 $contador++;
             }
 
-            $query.= "WHERE ".$condicion["condicion_campo"]."=".$condicion["condicion_marcador"];
+            $query.= " WHERE ".$condicion["condicion_campo"]."=".$condicion["condicion_marcador"];
             
             $sql = $this-> conectar()-> prepare($query);
 
@@ -132,7 +133,11 @@
 
             $sql-> bindParam($condicion["condicion_marcador"], $condicion["condicion_valor"]);
 
-            $sql-> execute();
+            try {
+                $sql->execute();
+            } catch (PDOException $e) {
+                echo "Error SQL: " . $e->getMessage();
+            }
 
             return $sql;
         }

@@ -416,18 +416,19 @@ class userController extends mainModel {
         }
 
         //Verificar disponibildiad usuario
-        $check_usuario = $this-> ejecutarConsulta(
-            "SELECT usuario_usuario FROM usuario 
+        if($datos['usuario_usuario'] != $usuario) {
+            $check_usuario = $this-> ejecutarConsulta("SELECT usuario_usuario FROM usuario 
             WHERE usuario_usuario= '$usuario'");
 
-        if ($check_usuario-> rowCount() > 0) {
-            $alerta = [
-                "tipo" => "simple",
-                "titulo" => "Ocurrió un error inesperado",
-                "texto" => "El nombre de USUARIO ya está registrado",
-                "icono" => "error"
-            ];
-            return json_encode($alerta);
+            if ($check_usuario-> rowCount() > 0) {
+                $alerta = [
+                    "tipo" => "simple",
+                    "titulo" => "Ocurrió un error inesperado",
+                    "texto" => "El nombre de USUARIO ya está registrado",
+                    "icono" => "error"
+                ];
+                return json_encode($alerta);
+            }
         }
 
         # Verificando email #
@@ -455,33 +456,31 @@ class userController extends mainModel {
         }
 
         //verificando claves
-        if($clave!="" || $claveConfirmacion !=""){
-            	if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave) || $this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$claveConfirmacion)){
-
-			        $alerta=[
-						"tipo"=>"simple",
-						"titulo"=>"Ocurrió un error inesperado",
-						"texto"=>"Las CLAVES no coinciden con el formato solicitado",
-						"icono"=>"error"
-					];
-					return json_encode($alerta);
-			    }else{
-			    	if($clave!=$claveConfirmacion){
-
-						$alerta=[
-							"tipo"=>"simple",
-							"titulo"=>"Ocurrió un error inesperado",
-							"texto"=>"Las nuevas CLAVES que acaba de ingresar no coinciden, por favor verifique e intente nuevamente",
-							"icono"=>"error"
-						];
-						return json_encode($alerta);
-			    	}else{
-			    		$claveHash=password_hash($clave,PASSWORD_BCRYPT,["cost"=>10]);
-			    	}
-			    }
-			}else{
-				$claveHash=$datos['usuario_clave'];
+        if($clave != "" || $claveConfirmacion != "") {
+            if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave) || $this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$claveConfirmacion)){
+                $alerta=[
+                    "tipo"=>"simple",
+                    "titulo"=>"Ocurrió un error inesperado",
+                    "texto"=>"Las CLAVES no coinciden con el formato solicitado",
+                    "icono"=>"error"
+                ];
+                return json_encode($alerta);
+            }else{
+                if($clave != $claveConfirmacion) {
+                    $alerta=[
+                        "tipo"=>"simple",
+                        "titulo"=>"Ocurrió un error inesperado",
+                        "texto"=>"Las nuevas CLAVES que acaba de ingresar no coinciden, por favor verifique e intente nuevamente",
+                        "icono"=>"error"
+                    ];
+                    return json_encode($alerta);
+                } else {
+                    $claveHash = password_hash($clave,PASSWORD_BCRYPT,["cost" => 10]);
+                }
             }
+		} else {
+			$claveHash = $datos['usuario_clave'];
+        }
 
         
         //Verificar formato telefono
@@ -510,82 +509,7 @@ class userController extends mainModel {
             }
         }
 
-        #Directorio de imagenes#
-    	$img_dir="../views/fotos/";
-
-         #Comprobar si se selecciono una imagen#
-    	if($_FILES['usuario_foto']['name'] != "" && 
-            $_FILES['usuario_foto']['size'] > 0) {
-
-    		#Creando directorio#
-		    if(!file_exists($img_dir)){
-                //0777 -> permisos de lectura y escritura en el proyecto
-		        if(!mkdir($img_dir,0777)){
-		            $alerta=[
-						"tipo"=>"simple",
-						"titulo"=>"Ocurrió un error inesperado",
-						"texto"=>"Error al crear el directorio",
-						"icono"=>"error"
-					];
-					return json_encode($alerta);
-		        } 
-		    }
-
-            #Verificando formato de imagenes#
-		    if(mime_content_type($_FILES['usuario_foto']['tmp_name']) != "image/jpeg" && 
-                mime_content_type($_FILES['usuario_foto']['tmp_name']) != "image/png"){
-                $alerta=[
-                    "tipo"=>"simple",
-                    "titulo"=>"Ocurrió un error inesperado",
-                    "texto"=>"La imagen que ha seleccionado es de un formato no permitido",
-                    "icono"=>"error"
-                ];
-                return json_encode($alerta);
-            }
-
-            #Verificando peso de imagen#
-            //de bytes a kbytes -> se divide en 1024
-            //maximo 5MB -> 5 * 1024 = 5120 KB
-            if(($_FILES['usuario_foto']['size'] / 1024) > 5120){
-                $alerta=[
-                    "tipo"=>"simple",
-                    "titulo"=>"Ocurrió un error inesperado",
-                    "texto"=>"La imagen que ha seleccionado supera el peso permitido",
-                    "icono"=>"error"
-                ];
-                return json_encode($alerta);
-            }
-
-            #Nombre de la foto#
-            //para que los nombres de foto no se repitan
-            $foto= str_ireplace(" ","_",$nombre);
-            $foto= $foto."_".rand(0,100);
-
-            #Extension de la imagen#
-            switch(mime_content_type($_FILES['usuario_foto']['tmp_name'])){
-                case 'image/jpeg':
-                    $foto= $foto.".jpg";
-                break;
-                case 'image/png':
-                    $foto= $foto.".png";
-                break;
-            }
-
-            chmod($img_dir,0777);
-
-            #Moviendo imagen al directorio#
-            if(!move_uploaded_file($_FILES['usuario_foto']['tmp_name'],$img_dir.$foto)){
-                $alerta=[
-                    "tipo"=>"simple",
-                    "titulo"=>"Ocurrió un error inesperado",
-                    "texto"=>"No podemos subir la imagen al sistema en este momento",
-                    "icono"=>"error"
-                ];
-                return json_encode($alerta);
-            }
-        } else {
-            $foto= "";
-        }
+        
 
         $usuario_datos_up = [
             [
@@ -617,11 +541,6 @@ class userController extends mainModel {
                 "campo_nombre"=>"usuario_edad",
                 "campo_marcador"=>":Edad",
                 "campo_valor"=>$edad
-            ],
-            [
-                "campo_nombre"=>"usuario_foto",
-                "campo_marcador"=>":Foto",
-                "campo_valor"=>$foto
             ]
         ];
 
@@ -631,14 +550,14 @@ class userController extends mainModel {
             "condicion_valor"=>$id
         ];
 
-        if($this-> actualizarDatos("usuario",$usuario_datos_up,$condicion)){
+        if($this-> actualizarDatos("usuario",$usuario_datos_up,$condicion)) {
 
             if($id == $_SESSION['id']) {
                 $_SESSION['nombre']= $nombre;
                 $_SESSION['usuario']= $usuario;
+                $_SESSION['email']= $email;
                 $_SESSION['telefono'] = $telefono;
                 $_SESSION['edad'] = $edad;
-                $_SESSION['foto'] = $foto;
             }
 
             $alerta=[

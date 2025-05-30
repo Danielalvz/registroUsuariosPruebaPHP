@@ -5,7 +5,7 @@
         protected function obtenerVistasModelo($vista) {
 
             //Define valores permitidos en la url
-            $listaBlanca = ["dashboard", "userNew", "userProfile", "userUpdate", "logOut", "userPhoto"];
+            $listaBlanca = ["dashboard", "userNew", "userProfile", "userUpdate", "logOut", "userPhoto", "messages"];
 
             if(in_array($vista, $listaBlanca)) {
                 if(is_file("./app/views/content/".$vista."-view.php")) {

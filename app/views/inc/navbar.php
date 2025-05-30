@@ -23,6 +23,11 @@
             <a class="nav-link" href="<?php echo APP_URL; ?>userProfile/<?php echo $_SESSION['id']; ?>/">Perfil</a>
           </li>
         <?php endif; ?>
+        <?php if (isset($_SESSION['usuario']) && isset($_SESSION['id'])): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo APP_URL; ?>messages/<?php echo $_SESSION['id']; ?>/">Mensajes</a>
+          </li>
+        <?php endif; ?>
       </ul>
       
       <!-- Menú derecho: Usuario logueado -->

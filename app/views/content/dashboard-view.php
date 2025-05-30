@@ -29,7 +29,7 @@
             <a href="<?php echo APP_URL; ?>userNew/">Regístrate aquí</a>
           </p>
           <p class="text-muted small">
-            En esta plataforma podrás crear tu propio usuario, editar tu perfil y, próximamente, enviar mensajes a otros usuarios.
+            En esta plataforma podrás crear tu propio usuario, editar tu perfil y, enviar mensajes a otros usuarios registrados.
           </p>
         <?php endif; ?>
       </div>
@@ -41,8 +41,7 @@
         </div>
         <div class="card-body bg-light">
           <p class="card-text small text-justify">
-            Próximamente podrás comunicarte con otros usuarios registrados en plataforma, con la función de mensajes entre usuarios.
-            Esta función aun esta en desarrollo, gracias!
+            Próximamente se mejorará la función de mensajes, y se implementará la función de recuperación de contraseña via email, gracias!
           </p>
           <div class="text-center mt-3">
             <img src="<?php echo APP_URL.'app/views/img/construccion.gif'; ?>" 

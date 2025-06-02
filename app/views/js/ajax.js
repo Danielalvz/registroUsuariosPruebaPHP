@@ -150,16 +150,22 @@ function cargarMensajes() {
                 return;
             }
 
-            contenedor.innerHTML = data.map(msg => `
+             contenedor.innerHTML = data.map(msg => `
                 <div class="card mb-3">
-                  <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">
-                      De: Usuario ${msg.emisor_id} - ${msg.mensaje_fecha}
-                    </h6>
-                    <p class="card-text">${msg.mensaje_texto}</p>
+                  <div class="card-body d-flex align-items-center">
+                    <img src="${BASE_URL}app/views/fotos/${msg.emisor_foto}" alt="Foto de ${msg.emisor_nombre}" class="rounded-circle me-3" width="50" height="50">
+                    <div>
+                      <h6 class="card-subtitle mb-1 text-muted">
+                        De: ${msg.emisor_nombre} - ${msg.mensaje_fecha}
+                      </h6>
+                      <p class="card-text mb-0">${msg.mensaje_texto}</p>
+                    </div>
                   </div>
                 </div>
             `).join("");
+        })
+        .catch(err => {
+            console.error("Error al cargar mensajes:", err);
         });
 }
 

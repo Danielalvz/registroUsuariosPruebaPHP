@@ -9,7 +9,15 @@ class messagesModel extends mainModel {
     }
 
     protected function obtenerMensajesUsuarioModelo($usuario_id) {
-        $sql = $this->conectar()->prepare("SELECT * FROM mensajes WHERE receptor_id = :id ORDER BY mensaje_fecha DESC");
+        $sql = $this->conectar()->prepare("
+        SELECT 
+            m.*,
+            u.usuario_nombre AS emisor_nombre,
+            u.usuario_foto AS emisor_foto
+        FROM mensajes m
+        JOIN usuario u ON m.emisor_id = u.usuario_id
+        WHERE m.receptor_id = :id
+        ORDER BY m.mensaje_fecha DESC");
         $sql->bindParam(":id", $usuario_id);
         $sql->execute();
         return $sql;

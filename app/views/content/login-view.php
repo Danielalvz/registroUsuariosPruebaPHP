@@ -21,6 +21,10 @@
       <button type="submit" class="btn btn-primary rounded-pill px-4">Iniciar sesión</button>
     </div>
 
+    <div class="mt-3 text-center">
+      <a href="<?php echo APP_URL; ?>loginPassRecover/" class="text-decoration-none text-primary">¿Olvidaste tu contraseña?</a>
+    </div>
+
   </form>
   <div class="mt-4 text-center">
     <a href="<?php echo APP_URL; ?>dashboard" class="text-decoration-none">

@@ -6,6 +6,14 @@
     if(file_exists(__DIR__."/../../config/server.php")) {
         require_once __DIR__."/../../config/server.php";
     }
+
+    require_once __DIR__ . '/../../PHPMailer/PHPMailer.php';
+    require_once __DIR__ . '/../../PHPMailer/SMTP.php';
+    require_once __DIR__ . '/../../PHPMailer/Exception.php';
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
     class mainModel {
         private $server = DB_SERVER;
         private $db = DB_NAME;
@@ -152,6 +160,33 @@
 
             return $sql;
         }
+
+        protected function enviarCorreo($destino, $asunto, $mensajeHTML) {
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'correo@gmail.com'; 
+            $mail->Password   = 'contra app'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            $mail->setFrom('correo@gmail.com', 'Mensajeria Cero K Prueba');
+            $mail->addAddress($destino);
+            $mail->isHTML(true);
+            $mail->Subject = $asunto;
+            $mail->Body    = $mensajeHTML;
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Error al enviar correo: {$mail->ErrorInfo}");
+            return false;
+        }
+    }
+
 
         
     }

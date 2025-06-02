@@ -86,34 +86,43 @@ function alertas_ajax(alerta) {
         });
 
     } else if (alerta.tipo == "redireccionar") {
-        window.location.href = alerta.url;
+        Swal.fire({
+            icon: alerta.icono,
+            title: alerta.titulo,
+            text: alerta.texto,
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = alerta.url;
+            }
+        });
     }
 }
 
 // Boton para cerrar sesion
 let btn_exit = document.getElementById("btn_exit");
 
-btn_exit.addEventListener("click", function (e) {
+if (btn_exit) {
+    btn_exit.addEventListener("click", function (e) {
+        e.preventDefault();
 
-    e.preventDefault();
-
-    Swal.fire({
-        title: '¿Quieres salir del sistema?',
-        text: "La sesión actual se cerrará y saldrás del sistema",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, salir',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            let url = this.getAttribute("href");
-            window.location.href = url;
-        }
+        Swal.fire({
+            title: '¿Quieres salir del sistema?',
+            text: "La sesión actual se cerrará y saldrás del sistema",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, salir',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = this.getAttribute("href");
+                window.location.href = url;
+            }
+        });
     });
-
-});
+}
 
 // Cargar mensajes
 
@@ -123,10 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function cargarUsuarios() {
+    const select = document.getElementById("receptor_id");
+    if (!select) return;
+
     fetch(`${BASE_URL}app/ajax/mensajeAjax.php?accion=usuarios`)
         .then(res => res.json())
         .then(data => {
-            const select = document.getElementById("receptor_id");
             select.innerHTML = '<option value="">Seleccione un usuario</option>';
             data.forEach(usuario => {
                 const option = document.createElement("option");
@@ -141,10 +152,12 @@ function cargarUsuarios() {
 }
 
 function cargarMensajes() {
+    const contenedor = document.getElementById("bandejaMensajes");
+    if (!contenedor) return;
+
     fetch(`${BASE_URL}app/ajax/mensajeAjax.php?accion=obtener`)
         .then(res => res.json())
         .then(data => {
-            const contenedor = document.getElementById("bandejaMensajes");
             if (data.length === 0) {
                 contenedor.innerHTML = "<p>No tienes mensajes.</p>";
                 return;

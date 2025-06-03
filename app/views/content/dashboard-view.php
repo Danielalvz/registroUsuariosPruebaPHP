@@ -35,20 +35,24 @@
       </div>
 
       <hr>
-      <div class="card shadow rounded-3 border-primary border-2 mt-4">
-        <div class="card-header bg-primary text-white text-center fs-5 fw-semibold rounded-top">
-          📰 Noticias
+      <div class="card shadow-lg rounded-3 border-primary border-3 mt-4">
+        <div class="card-header bg-primary text-white text-center fs-4 fw-semibold rounded-top py-3">
+          💬 Mensajes
         </div>
-        <div class="card-body bg-light">
-          <p class="card-text small text-justify">
-            Próximamente se mejorará la función de mensajes, y se implementará la función de recuperación de contraseña via email, gracias!
+        <div class="card-body bg-light text-center py-4">
+          <p class="card-text fs-6 text-muted mb-4">
+            Envía mensajes a usuarios registrados o revisa tus conversaciones.
           </p>
-          <div class="text-center mt-3">
-            <img src="<?php echo APP_URL.'app/views/img/construccion.gif'; ?>" 
-                  alt="En construcción" 
-                  class="img-fluid rounded shadow-sm" 
-                  style="max-width: 60%; height: auto;">
-          </div>
+          <?php if (isset($_SESSION['usuario']) && isset($_SESSION['id'])): ?>
+            <a href="<?php echo APP_URL; ?>messages/<?php echo $_SESSION['id']; ?>/" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+              Ir a Mensajes
+            </a>
+          <?php else: ?>
+            <a href="<?php echo APP_URL; ?>userNew/" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+              ¡Empieza ahora!
+            </a>
+          <?php endif; ?>
+          
         </div>
       </div>
 

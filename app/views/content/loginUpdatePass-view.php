@@ -1,10 +1,10 @@
 <?php
-$token = $_GET['token'] ?? '';
+  $token = $_GET['token'] ?? '';
 
-if (!$token) {
-  echo "<div class='container text-center mt-5'><h4 class='text-danger'>Token inválido</h4></div>";
-  exit;
-}
+  if (!$token) {
+    echo "<div class='container text-center mt-5'><h4 class='text-danger'>Token inválido</h4></div>";
+    exit;
+  }
 ?>
 
 <div class="container min-vh-100 d-flex justify-content-center align-items-center flex-column">

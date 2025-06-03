@@ -164,30 +164,27 @@
         protected function enviarCorreo($destino, $asunto, $mensajeHTML) {
 
         $mail = new PHPMailer(true);
-        try {
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'correo@gmail.com'; 
-            $mail->Password   = 'contra app'; 
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+            try {
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'ml@gmail.com'; 
+                $mail->Password   = 'mmmmm'; 
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587;
 
-            $mail->setFrom('correo@gmail.com', 'Mensajeria Cero K Prueba');
-            $mail->addAddress($destino);
-            $mail->isHTML(true);
-            $mail->Subject = $asunto;
-            $mail->Body    = $mensajeHTML;
+                $mail->setFrom('m@gmail.com', 'Mensajeria Cero K Prueba');
+                $mail->addAddress($destino);
+                $mail->isHTML(true);
+                $mail->Subject = $asunto;
+                $mail->Body    = $mensajeHTML;
 
-            $mail->send();
-            return true;
-        } catch (Exception $e) {
-            error_log("Error al enviar correo: {$mail->ErrorInfo}");
-            return false;
-        }
-    }
-
-
-        
+                $mail->send();
+                return true;
+            } catch (Exception $e) {
+                error_log("Error al enviar correo: {$mail->ErrorInfo}");
+                return false;
+            }
+        }       
     }
     

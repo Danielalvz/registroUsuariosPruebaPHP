@@ -111,7 +111,7 @@ class loginController extends mainModel
         ]);
     }
 
-    // Verificar si el correo existe
+    // Verificar si el correo existes
     $check_email = $this->ejecutarConsulta("SELECT * FROM usuario WHERE usuario_email='$email'");
     if ($check_email->rowCount() == 0) {
         return json_encode([

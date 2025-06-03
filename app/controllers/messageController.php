@@ -52,10 +52,10 @@ class messageController extends messagesModel {
     }
 
     public function obtenerUsuariosControlador() {
-    $usuarios = $this->obtenerUsuariosModelo($_SESSION['id']); // Excluye al usuario actual
-    $datos = $usuarios->fetchAll(\PDO::FETCH_ASSOC);
-    return json_encode($datos);
-}
+        $usuarios = $this->obtenerUsuariosModelo($_SESSION['id']); // Excluye al usuario actual
+        $datos = $usuarios->fetchAll(\PDO::FETCH_ASSOC);
+        return json_encode($datos);
+    }
 
 }
 
